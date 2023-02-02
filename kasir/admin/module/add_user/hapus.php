@@ -1,7 +1,8 @@
 <?php
-include '../upload/functions.php';
+include '../barang/functions.php';
 $id = $_GET["id_member"];
-if( hapus($id) > 0 ){
+$gambarLama = $_GET["gambar"];
+if( hapus($id, $gambarLama) > 0 ){
     echo "
     <script>
     alert('data berhasil dihapus');

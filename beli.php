@@ -1,6 +1,6 @@
 <?php 
 include 'config.php';
-include 'kasir/admin/module/upload/functions.php';
+include 'kasir/admin/module/barang/functions.php';
 
 $toko = query("SELECT * FROM toko" );
  ?>

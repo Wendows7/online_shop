@@ -1,5 +1,5 @@
 <?php
- include 'admin/module/upload/functions.php'; 
+ include 'admin/module/barang/functions.php'; 
 $member = query("SELECT * FROM member INNER JOIN login on member.id_member=login.id_member");
 ?>
 <style>table {
@@ -100,7 +100,7 @@ $member = query("SELECT * FROM member INNER JOIN login on member.id_member=login
                     <td><img src="admin/module/add_user/img/<?= $row["gambar"]; ?>" width="100"></td>
                     <td>
                     <a href="admin/module/add_user/edit.php?id_member=<?= $row['id_member'];?>"><button class="btn btn-warning btn-xs">Edit</button></a>
-                        <a href = "admin/module/add_user/hapus.php?id_member=<?= $row["id_member"]; ?>" onclick="javascript:return confirm('Hapus Data barang ?');"><button class="btn btn-danger btn-xs">Hapus</button></a>
+                        <a href = "admin/module/add_user/hapus.php?id_member=<?= $row["id_member"]; ?>&gambar=<?= $row['gambar'];?>" onclick="javascript:return confirm('Hapus Data barang ?');"><button class="btn btn-danger btn-xs">Hapus</button></a>
                     </td>
                     </tr>
                    

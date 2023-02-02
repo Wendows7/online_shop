@@ -1,5 +1,6 @@
 <?php
-include 'kasir/admin/module/upload/functions.php';
+require "config.php";
+require 'kasir/admin/module/barang/functions.php';
 $upload = query("SELECT * FROM barang ORDER BY id ASC LIMIT 0, 6");
 $toko = query("SELECT * FROM toko");
 ?>

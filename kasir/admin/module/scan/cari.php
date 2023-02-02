@@ -1,5 +1,6 @@
 <?php
-$koneksi=mysqli_connect("localhost","root","","kasir") or die();
+include "../../../config.php";
+$koneksi=mysqli_connect($host,$user,$pass,$dbname) or die();
 $kode_barcode=trim($_POST['input_scanner']);
 $cari=mysqli_query($koneksi,"select * from keranjang where kode='$kode_barcode' ");
 $jml=mysqli_num_rows($cari);

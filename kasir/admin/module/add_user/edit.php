@@ -1,10 +1,10 @@
 <?php
-include '../upload/functions.php';
+include '../barang/functions.php';
 $id = $_GET["id_member"];
 $edit = query("SELECT * FROM member WHERE id_member = $id")[0];
 $edit1 = query("SELECT * FROM login WHERE id_member = $id")[0];
 if( isset($_POST["submit"]) ){
-    if( edit($_POST) ) {
+    if(edit_user($_POST) ) {
         echo  "<script>
         alert('data berhasil diubah');
         document.location.href = '../../../index.php?page=add_user';

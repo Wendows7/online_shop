@@ -1,5 +1,5 @@
 <?php
-include '../upload/functions.php';
+include '../barang/functions.php';
 if( isset($_POST["submit"]) ){
     if( tambah_user($_POST) > 0 ){
         echo  "<script>

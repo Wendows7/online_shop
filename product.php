@@ -1,4 +1,5 @@
 <?php
+require "config.php";
  include 'kasir/admin/module/barang/functions.php'; 
 
  $jumlahDataPerHalaman = 9;

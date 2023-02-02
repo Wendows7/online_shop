@@ -1,5 +1,6 @@
-<?php 
-$conn = mysqli_connect("localhost", "root", "", "kasir");
+<?php
+include "../../../config.php";
+$conn=mysqli_connect($host,$user,$pass,$dbname) or die();
 
 function query($query) {
     global $conn;
@@ -30,7 +31,6 @@ function tambah($data) {
 
 function tambah_user($data) {
     global $conn;
-    global $gambar;
    
 
     $user = htmlspecialchars($data["user"]);
@@ -41,6 +41,10 @@ function tambah_user($data) {
     $emailmember = htmlspecialchars($data["email"]);
     $nikmember = htmlspecialchars($data["NIK"]);
     $levelmember = htmlspecialchars($data["level"]);
+    $gambar = upload_user();
+    if( !$gambar){
+        return false;
+    }
     
 
     $random = random_int(00000,99999);
@@ -52,6 +56,45 @@ function tambah_user($data) {
     mysqli_query($conn, $query_member);
     mysqli_query($conn, $query);
     return mysqli_affected_rows($conn);
+}
+
+function upload_user(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    if($error === 4 ){
+        echo "<script>
+        alert('pilih gambar terlebih dahulu!');
+        </script>";
+        return false;
+    }
+
+    $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiGambar = explode('.', $namaFile);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    if( !in_array($ekstensiGambar, $ekstensiGambarValid)){
+        echo "<script>
+        alert('yang anda upload bukan gambar!');
+        </script>";
+        return false;
+    }
+    
+    if($ukuranFile > 10000000)
+ {
+echo "<script>
+alert('ukuran gambar terlalu besar!');
+</script>";
+return false;
+ }
+$namaFileBaru = uniqid();   
+$namaFileBaru .= '.';
+$namaFileBaru .= $ekstensiGambar;
+
+move_uploaded_file($tmpName, '../add_user/img/' . $namaFileBaru);
+
+ return $namaFileBaru;
 }
 
 function upload(){
@@ -322,10 +365,12 @@ move_uploaded_file($tmpName3, '../../admin/module/barang/img/' . $namaFileBaru3)
  return $namaFileBaru3;
 }
 
-function hapus($id){
+function hapus($id, $gambarLama){
     global $conn;
-    mysqli_query($conn, "DELETE FROM upload WHERE id = $id");
-    
+    $target = "../add_user/img/$gambarLama";
+    mysqli_query($conn, "DELETE FROM member WHERE id_member = $id");
+    mysqli_query($conn, "DELETE FROM login WHERE id_member = $id");
+    unlink($target);
     return mysqli_affected_rows($conn);
 }
 
@@ -353,7 +398,36 @@ function cari($keyword) {
      nama LIKE '%$keyword%'";
      return query($query);
 }
+function edit_user($data) {
+    global $conn;
+   
+    $id = $data["id_member"];
+    $user = htmlspecialchars($data["user"]);
+    $pass = htmlspecialchars($data["pass"]);
+    $nama = htmlspecialchars($data["nm_member"]);
+    $alamat = htmlspecialchars($data["alamat_member"]);
+    $gambarLama = htmlspecialchars($data["gambarLama"]);
+    $email = htmlspecialchars($data["email"]);
+    $telepon = htmlspecialchars($data["telepon"]);
+    $nik = htmlspecialchars($data["NIK"]);
+    $level = htmlspecialchars($data["level"]);
+    $target = "../add_user/img/$gambarLama";
+    if( $_FILES['gambar']['error'] == 4){
+        $gambar = $gambarLama;
+    }else{
+        $gambar = upload_user();
+        unlink($target);
+    }
+    
+    $query = "UPDATE member SET nm_member = '$nama', alamat_member = '$alamat', gambar = '$gambar', email = '$email', telepon = '$telepon'
+    , NIK = '$nik', level = '$level' WHERE id_member = $id";
+    $query1 = "UPDATE login SET user = '$user', pass = md5('$pass') WHERE id_member = '$id' ";
+    mysqli_query($conn, $query);
+    mysqli_query($conn, $query1);
 
+    return mysqli_affected_rows($conn);
+    
+    }
 function tambah_cart($data) {
 global $conn;
 

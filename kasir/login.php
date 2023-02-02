@@ -1,8 +1,11 @@
 <?php
+
 	@ob_start();
 	session_start();
 	if(isset($_POST['proses'])){
 		require 'config.php';
+		
+	
 			
 		$user = strip_tags($_POST['user']);
 		$pass = strip_tags($_POST['pass']);
@@ -32,8 +35,9 @@
 			echo '<script>alert("Login Gagal");history.go(-1);</script>';
 		}
 	}
-
+	
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -66,9 +70,13 @@
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
-
+	  <?php 
+	  require 'config.php';
+	  require 'admin/module/barang/functions.php';
+	  $toko = query("SELECT * FROM toko");?> 
 	  <div id="login-page" style="padding-top:1pc;">
-	  <img width=150 height=150	src="assets/img/logo.png" style="display:block; margin:auto;">
+	  <?php foreach ($toko as $tokos)  : ?> 
+	  <img width=150 height=150	src="admin/module/pengaturan/img/<?= $tokos["logo"];?>" style="display:block; margin:auto;">
 	  	<div class="container">
 		      <form class="form-login" method="POST">
 		        <h2 class="form-login-heading">KASIR</h2>
@@ -90,4 +98,4 @@
     <script src="assets/js/bootstrap.min.js"></script>
   </body>
 </html>
-
+<?php endforeach;?>
