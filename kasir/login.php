@@ -37,7 +37,10 @@
 	}
 	
 ?>
-
+<?php 
+	  require 'config.php';
+	  require 'admin/module/barang/functions.php';
+	  $toko = query("SELECT * FROM toko");?> 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -46,7 +49,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword">
-
+	<ink rel="shortcut icon" href="/admin/module/pengaturan/img/<?= $tokos["logo"];?>" type="">
     <title>Login Kasir</title>
 
     <!-- Bootstrap core CSS -->
@@ -70,10 +73,7 @@
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
-	  <?php 
-	  require 'config.php';
-	  require 'admin/module/barang/functions.php';
-	  $toko = query("SELECT * FROM toko");?> 
+	  
 	  <div id="login-page" style="padding-top:1pc;">
 	  <?php foreach ($toko as $tokos)  : ?> 
 	  <img width=150 height=150	src="admin/module/pengaturan/img/<?= $tokos["logo"];?>" style="display:block; margin:auto;">
