@@ -368,8 +368,8 @@ move_uploaded_file($tmpName3, '../../admin/module/barang/img/' . $namaFileBaru3)
 function hapus($id, $gambarLama){
     global $conn;
     $target = "../add_user/img/$gambarLama";
-    mysqli_query($conn, "DELETE FROM member WHERE id_member = $id");
     mysqli_query($conn, "DELETE FROM login WHERE id_member = $id");
+    mysqli_query($conn, "DELETE FROM member WHERE id_member = $id");
     unlink($target);
     return mysqli_affected_rows($conn);
 }
